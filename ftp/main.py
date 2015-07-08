@@ -3,6 +3,8 @@ from PythonQt.QtCore import QFile, QSettings, QBuffer, QIODevice
 from PythonQt.QtGui import QWidget, QDialog, QDesktopServices, QIcon, QStandardItem, QStandardItemModel
 from PythonQt.QtUiTools import QUiLoader
 import ftplib, time
+import random, string
+
 
 class FTPUploader():
 	def __init__(self):
@@ -80,11 +82,20 @@ class FTPUploader():
 		except ftplib.error_perm as err:
 			ScreenCloud.setError(err.message)
 			return False
+		try:
+			ftp.storbinary(name, randomword)
+		except ftplib.error_perm as err:
+			ScreenCloud.setError(err.message)
+			return False
 		ftp.quit()
 		f.close()
 		if self.url:
-			ScreenCloud.setUrl(self.url + ScreenCloud.formatFilename(name))
+			ScreenCloud.setUrl(self.url + ScreenCloud.formatFilename(randomword))
 		return True
+		
+	def randomword():
+		chars = string.letters + string.digits
+   		return ''.join((random.choice(chars)) for x in range(pwdSize))
 
 	def nameFormatEdited(self, nameFormat):
 		self.settingsDialog.group_location.label_example.setText(ScreenCloud.formatFilename(nameFormat))
