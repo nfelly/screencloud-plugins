@@ -83,7 +83,7 @@ class FTPUploader():
 			ScreenCloud.setError(err.message)
 			return False
 		try:
-			ftp.storbinary(name, randomword)
+			ftp.rename(name, randomword)
 		except ftplib.error_perm as err:
 			ScreenCloud.setError(err.message)
 			return False
